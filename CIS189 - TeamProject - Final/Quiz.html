@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<!--****************************-->
+<!-- CIS 189: Team Project 01   -->
+<!-- Brandon Kerber, Seth Hubert-->
+<!-- Date Started: 11-8-16      -->
+<!-- File Name: Quiz.html       -->
+<!--****************************-->
+<html>
+<head>
+    <script type="text/javascript">
+        // Declare a dictionary object to hold Question numbers as keys
+        var ANSWERS = {};
+        function loadXMLDoc(filename)
+        {
+            /*Load an XML file and return it*/
+
+            xhttp = new XMLHttpRequest();
+            xhttp.open("GET", filename, false);
+            xhttp.send();
+            return xhttp.responseXML;
+        }
+
+        //gets the root element
+        function getRootElement(xmlDoc) {
+            var rootNode;
+            for (var i = 0; i < xmlDoc.childNodes.length; ++i) //iterates through the begining comments and junk to find the rootElement
+            {
+                var curNode = xmlDoc.childNodes[i]; //current node
+                if (curNode.nodeType == 1) //Is this an element?
+                {
+                    rootNode = curNode;//We found the root
+                    return rootNode;
+                }
+            }
+            return null;
+        }
+        function getQuestions(root)
+        {
+            var questions = new Array();
+            
+            for (var i = 0; i < root.childNodes.length; ++i) //iterate through the questions and comments
+            {
+                var element = root.childNodes[i]; //get the current child
+                if (element.nodeType == 1) //if it's actually an element
+                {
+                    questions.push(element);
+                    
+                }
+            }
+            return questions;
+        }
+        function getQuestion(root, num)
+        {
+            //Test Text
+            var text = "";
+            for (var i = 0; i < root.childNodes.length; ++i) //iterate through the questions and comments
+            {
+                var element = root.childNodes[i]; //get the current child
+                if (element.nodeType == 1) //if it's actually an element
+                {
+                    var questionElements = element.childNodes;
+                    //We're on a question
+                    for (var j = 0; j < questionElements.length; ++j)
+                    {
+                        if( questionElements[j].nodeType == 1 )
+                        {
+                            //We're on the question number
+                            text += questionElements[j].nodeName; // + " " + questionElements.childNodes[0].nodeValue;
+                            var textElement = questionElements[j].childNodes[0];
+                            var testnum = textElement.nodeValue;
+                            text += " [1. Q] " + testnum; // <!-- PRINT STATEMENT -->
+                           
+                            if(questionElements[j].childNodes[0].nodeValue == num)
+                            {
+                                return element;
+                            }
+                            
+                        }
+                    }
+
+
+                   
+                }
+                
+                if (element.nodeType == 1)
+                {
+
+                    var question = element.childNodes[0];
+                    var value = question.nodeName;
+                    //text += value + "<br/>"; // <!-- !PRINT STATEMENT -->
+                }
+
+            }
+            return text;
+
+        }
+
+        function printQuestion(question)
+        {
+            // Declare Q, which will be used as a key in the answers dictionary
+            var Q = "";
+            // Declare a dictionary object to hold Question numbers as keys
+            var answers = {};
+
+
+            var text = "";
+            var description = "";
+            for( var i = 0; i < question.childNodes.length; ++i) //get all question properties
+            {
+                var element = question.childNodes[i];
+                if (element.nodeName == "description") //If we're the description
+                {
+                    var desTextNode = element.childNodes[0]; //get the text child element
+                   description = desTextNode.nodeValue; //get the value stored in the text element
+                }
+                if( element.nodeType == 1) //if we're an element
+                {
+                    
+                    if (element.childNodes.length > 0) //there is at least 1 child of this element
+                    {
+                        
+                        if (element.childNodes.length > 1) { //if there is more than 1 child of this element, we are a choices element
+                            for (var j = 0; j < element.childNodes.length; ++j) { //iterate through the children
+                                var choiceElement = element.childNodes[j]; //get the jth choice
+                                if (choiceElement.nodeType == 1 && choiceElement.nodeName == "choice") //if we're an element with the name "choice"
+                                {
+                                    choiceElement = element.childNodes[j]; 
+                                    var choice = choiceElement.childNodes[0]; //get the text of the choice.
+                                    text += "<br /><input type='checkbox' name='" + description + "' value='" + choice.nodeValue + "' />&#160;" + choice.nodeValue + ""; // <!-- PRINT STATEMENT -->
+                                }
+                                else if (choiceElement.nodeType == 1 && choiceElement.nodeName == "boolean") { //if we're an element with the name "boolean"
+                                    choiceElement = element.childNodes[j];
+                                    var choice = choiceElement.childNodes[0];
+                                    text += "<br /><input type='radio' value ='" + choice.nodeValue + "' name='" + description + "' />&#160;" + choice.nodeValue + ""; // <!-- PRINT STATEMENT -->
+                                }
+                                else if (choiceElement.nodeType == 1 && choiceElement.nodeName == "essay") { //if we're an element with the name "essay"
+                                    text += "<br /><input name='" + description + "' type='text'/>"; // <!-- PRINT STATEMENT -->
+                                }
+                            }
+                        }
+
+                    
+                        var textElement = element.childNodes[0]; //get the element's text node
+
+                        // Edit: 
+                        // Inspect the nodeName; do different things depending on what is found
+                        switch (question.childNodes[i].nodeName) {
+                            
+                            //case "question": text += textElement.nodeValue;
+                                //break;
+
+                            
+                            case "number": Q = textElement.nodeValue; // Add this 'number' to the dictionary as a keyname
+                                text += textElement.nodeValue + ". "; // [Question Index Number]
+                                break;
+
+                            
+                            case "description": text += textElement.nodeValue; // [Question Sentence Text]
+                                break;
+
+                            case "answer": answers[Q] = textElement.nodeValue; // Add answer to the dictionary where keyname = 'q'
+                                ANSWERS[Q] = answers[Q];
+                                break;
+                        }
+
+                    }
+
+                   
+                }
+            }
+            text += "<hr />"; // <!-- PRINT STATEMENT -->
+            
+            return text;
+        }
+
+        function printQuestions(root)
+        {
+            var questions = getQuestions(root);
+            var text = "";
+            for( var i = 0; i < questions.length; ++i)
+            {
+                
+                text += "<h3>" + printQuestion(questions[i]) + "</h3>"; // <!-- PRINT STATEMENT -->
+            }
+            return text;
+        }
+
+        function main(xmlFile)
+        {
+            //Load xml file
+            var file = loadXMLDoc(xmlFile);
+            var root = getRootElement(file);
+            var text = printQuestions(root);
+            //var question = getQuestion(root, 1);
+            //var text = printQuestion(question);
+
+
+            var textTest = document.getElementById("textTest");
+            textTest.innerHTML = text;
+
+        }
+
+        function validation()
+        {
+            var responses = document.getElementsByTagName("input");
+            var validationText = "";
+            var lastType = "";
+            var lastCheckBox = "";
+            var lastRadioButton = "";
+            
+            
+            var qNbr = 0;
+            for (var i = 0; i < responses.length; ++i)
+            {
+                var response = responses[i];
+                var responseType = response.type;
+                if (responseType == "text")
+                {
+                    if (response.value == "")
+                    {
+                        validationText += " Please answer question #" + ++qNbr + ": \"" + response.name + "\"\n";
+                    }
+                    else
+                    {
+                        ++qNbr;
+                    }
+                }
+                else if (responseType == "radio")
+                {
+                    if (lastRadioButton == response.name)
+                    {
+                        continue;
+                    }
+                    var rads = document.getElementsByName(response.name);
+                    var answered = false;
+                    lastRadioButton = response.name;
+                    for (var j = 0; j < rads.length; ++j)
+                    {
+                        if( rads[j].checked)
+                        {
+                            answered = true;
+                            ++qNbr;
+                        }
+                    }
+                    if( answered == false)
+                    {
+                        validationText += " Please answer question #" + ++qNbr + ": \"" + response.name + "\"\n";
+                    }
+                }
+                else if (responseType == "checkbox")
+                {
+                    if (lastCheckBox == response.name)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        var boxes = document.getElementsByName(response.name);
+                        lastCheckBox = response.name;
+                        var answered = false;
+                        for (var j = 0; j < boxes.length; ++j)
+                        {
+                            if( boxes[j].checked)
+                            {
+                                answered = true;
+                            }
+
+                        }
+                        if( answered == false)
+                        {
+                            validationText += " Please answer question #" + ++qNbr + ": \"" + response.name + "\"\n";
+                        }
+                        else
+                        {
+                            ++qNbr;
+                        }
+                    }
+                }
+                lastType = responseType;
+            }
+            return validationText;
+        }
+
+        // Score the Quiz
+        function scoreQuiz()
+        {
+            
+           
+            var validationText = validation();
+            if (validationText != "")
+            {
+                alert("Please correct the following error(s):\n" + validationText);
+                return;
+            }
+
+
+
+
+            var text = "\n";
+            var lastType = "";
+            var curQuestionNum = 1;
+            var responses = document.getElementsByTagName("input");
+            var lastCheckBox = "";
+            for (var key in ANSWERS)
+            {
+                text += key +". " + ANSWERS[key] + "\n";
+            }
+            text += "\n----------------\n\nYour responses:\n";
+
+            
+            for (var i = 0; i < responses.length; ++i)
+            {
+                var currInput = responses[i];
+               
+                
+                if( currInput.type == "text")
+                {
+                    
+                    if (lastType == "checkbox") {
+                        text += "\n";
+                    }
+                    if (currInput.value != "") {
+                        text += curQuestionNum + ". " + currInput.value + "\n";
+                        
+
+                    }
+                    curQuestionNum += 1;
+                    
+                    
+                    
+                }
+                else if( currInput.type == "checkbox")
+                {
+                    if( currInput.checked )
+                    {
+                        if (lastType != "checkbox")
+                        {
+                            text += curQuestionNum + ". " + currInput.value + ", ";
+                            curQuestionNum += 1;
+                        }
+                        else
+                        {
+                            text += currInput.value + ", ";
+                        }
+                        
+                            
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    
+                    
+                   
+                }
+                else if( currInput.type == "radio")
+                {
+                    
+                    if (lastType == "checkbox") {
+                        text += "\n";
+                    }
+                    if( currInput.checked)
+                    {
+                        text += curQuestionNum + ". " + currInput.value + "\n";
+                        curQuestionNum += 1;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                lastType = currInput.type;
+
+            }
+
+            // alert("Answers:" + text);
+            var newWindow = window.open("", "Answers", "_blank");
+			newWindow.document.write("<style> html{background: #afafaf; font-family:'Trebuchet MS', Verdana; margin: auto 0; padding: 2em; width: 100%; }");
+            newWindow.document.write("body { background: #efefef; broder: thin dashed #cfcfcf; box-shadow: 4px 4px 12px; margin-left: 20%; margin-top: 2em; margin-bottom: 2em; padding: 2em; width: 50%;}")
+            newWindow.document.write(".answers {text-align: center;}</style>");
+            newWindow.document.write("<h1 class='answers'>Answers to Quiz</h1>")
+            newWindow.document.write("<p>" + text.replace(/\n/g, "<br />") + "</p>");
+        }
+
+    </script>
+
+    <style>
+
+        html {
+            background: #afafaf;
+            
+            font-family: 'Trebuchet MS', Verdana;
+            margin: auto 0;
+            padding: 2em;
+            width: 100%;
+        }
+
+        body {
+            background: #efefef;
+            border: thin dashed #cfcfcf;
+            box-shadow: 4px 4px 12px;
+			
+			margin-left: 20%;
+			
+			margin-top: 2em;
+			margin-bottom: 2em;
+			
+            
+            padding: 2em;
+            width: 50%;
+        }
+
+        input {
+            background: #ffffff;
+            margin: 0 0 0 2em;
+        }
+
+        input[type="checkbox"]:not(old) {
+            background: red;
+            margin: 0 0 0 2em;
+        }
+            
+
+        input.quiz-submit {
+            background: #0000ff;
+            border-radius: 2px;
+            box-shadow: #8080ff 4px  4px 12px;
+            border: thin solid #000080;
+            color: #ffffff;
+            font-size: 18pt;
+            text-shadow: 1px 1px #000080;
+        }
+
+        p.submit {
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        h2.quiz-title {
+            font-size: 36pt;
+            text-align: center;
+            text-shadow: 4px 2px 4px#808080;
+            -webkit-text-stroke: #ffffff 1px;
+        }
+
+    </style>
+
+    <title>The Quiz of Quizes</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <h2 class="quiz-title">The Quiz of Quizzes</h2>
+    &#160;
+    <div id='textTest'></div>
+    <script>main("Quiz.xml")</script>
+
+    <p class="submit"><input class="quiz-submit" id="inpSubmit" onclick="scoreQuiz();" type="submit" /></p>
+
+</body>
+</html>

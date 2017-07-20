@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--****************************-->
+<!-- CIS 189: Team Project 01   -->
+<!-- Brandon Kerber, Seth Hubert-->
+<!-- Date Started: 11-8-16      -->
+<!-- File Name: Quiz.xsd        -->
+<!--****************************-->
+<xsd:schema xmlns:xsd ="http://www.w3.org/2001/XMLSchema">
+
+  
+  
+  <!--Type Declarations-->
+  <xsd:element name="quiz" type="quizType"/>
+  
+  
+  <!--Type Definitions-->
+  
+  <!--Root-->
+  <xsd:complexType name="quizType">
+    <xsd:sequence>
+      <xsd:element name="question" type="questionType" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--Question-->
+  <xsd:complexType name="questionType">
+    <xsd:sequence>
+      <xsd:element name="number" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name ="choices" type="choiceType" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="answer" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <!--Choice-->
+  <xsd:complexType name="choiceType">
+    <xsd:choice>
+      <xsd:element name="choice" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="essay" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="boolean" type="xsd:string" minOccurs="0" maxOccurs="2"/>
+    </xsd:choice>
+  </xsd:complexType>
+
+  <!---***********************************-->
+  
+  
+</xsd:schema>

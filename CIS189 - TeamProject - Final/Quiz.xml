@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Add a stylesheet to our XML document -->
+<?xml-stylesheet type="text/xsl" href="Quiz.xsl"?>
+
+<!--****************************-->
+<!-- CIS 189: Team Project 01   -->
+<!-- Brandon Kerber, Seth Hubert-->
+<!-- Date Started: 11-8-16      -->
+<!-- File Name: Quiz.xml        -->
+<!--****************************-->
+
+<!--Root Element-->
+<quiz>
+  
+  <!--Question 1 -->
+  <question>
+    <number>1</number>
+    <description>What is 3 + 1?</description>
+    <choices>
+        <essay/>
+    </choices>
+    <answer>4</answer>
+  </question>
+
+  <!--Question 2 -->
+  <question>
+    <number>2</number>
+    <description>What is the capitol of Washington?</description>
+    <choices>
+        <essay/>
+    </choices>
+    <answer>Olympia</answer>
+  </question>
+
+  <!--Question 3 -->
+  <question>
+    <number>3</number>
+    <description>Which of the following are odd numbers?</description>
+    <choices>
+      <choice>1</choice>
+      <choice>2</choice>
+      <choice>3</choice>
+      <choice>4</choice>
+    </choices>
+    <answer>1, 3</answer>
+  </question>
+
+  <!--Question 4 -->
+  <question>
+    <number>4</number>
+    <description>What is the Course Number for CIS 189?</description>
+    <choices>
+      <essay/>
+    </choices>
+    <answer>189</answer>
+  </question>
+
+
+  <!--Question 5 -->
+  <question>
+    <number>5</number>
+    <description>Is Mars a planet?</description>
+    <choices>
+      <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>Yes</answer>
+  </question>
+
+
+  <!--Question 6 -->
+  <question>
+    <number>6</number>
+    <description>Is the Moon a satellite?</description>
+    <choices>
+      <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>Yes</answer>
+  </question>
+
+
+  <!--Question 7 -->
+  <question>
+    <number>7</number>
+    <description>Where does Santa Claus live?</description>
+    <choices>
+      <essay/>
+    </choices>
+    <answer>North Pole</answer>
+  </question>
+
+
+  <!--Question 8 -->
+  <question>
+    <number>8</number>
+    <description>Do Orcas live in pods?</description>
+    <choices>
+      <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>Yes</answer>
+  </question>
+
+
+  <!--Question 9 -->
+  <question>
+    <number>9</number>
+    <description>Do Peas live in pods?</description>
+    <choices>
+     <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>Yes</answer>
+  </question>
+
+
+  <!--Question 10 -->
+  <question>
+    <number>10</number>
+    <description>Do Aliens use pods to clone people?</description>
+    <choices>
+      <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>No</answer>
+  </question>
+
+
+  <!--Question 11 -->
+  <question>
+    <number>11</number>
+    <description>How many is three? (Select three)</description>
+    <choices>
+      <choice>3</choice>
+      <choice>1 + 2</choice>
+      <choice>√9</choice>
+    </choices>
+    <answer>3, 1 + 2, √9</answer>
+  </question>
+
+
+  <!--Question 12 -->
+  <question>
+    <number>12</number>
+    <description>What is the answer to the Ultimate Question of Life, the Universe, and Everything?</description>
+    <choices>
+      <essay/>
+    </choices>
+    <answer>42</answer>
+  </question>
+
+
+
+  <!--Question 13 -->
+  <question>
+    <number>13</number>
+    <description>What is your name?</description>
+    <choices>
+      <boolean>I don't know.</boolean>
+      <boolean>Arthur, King of the Britons</boolean>
+    </choices>
+    <answer>Arthur, King of the Britons</answer>
+  </question>
+
+  
+  <!--Question 14 -->
+  <question>
+    <number>14</number>
+    <description>What is your quest?</description>
+    <choices>
+      <boolean>I don't know.</boolean>
+      <boolean>To seek the Holy Grail!</boolean>
+    </choices>
+    <answer>To seek the Holy Grail!</answer>
+  </question>
+
+  
+  <!--Question 15 -->
+  <question>
+    <number>15</number>
+    <description>What is the airspeed velocity if a swallow?</description>
+    <choices>
+      <boolean>I don't know.</boolean>
+      <boolean>What do you mean? An African or European swallow?</boolean>
+    </choices>
+    <answer>What do you mean? An African or European swallow?</answer>
+  </question>
+  
+
+
+  <!--Question 16 -->
+  <question>
+    <number>16</number>
+    <description>In what state will you find New York?</description>
+    <choices>
+      <essay/>
+    </choices>
+    <answer>New York</answer>
+  </question>
+
+
+  <!--Question 17 -->
+  <question>
+    <number>17</number>
+    <description>What is the capitol of Mexico?</description>
+    <choices>
+      <essay/>
+    </choices>
+    <answer>Mexico City</answer>
+  </question>
+
+
+  <!--Question 18 -->
+  <question>
+    <number>18</number>
+    <description>What is the SPSCC mascot?</description>
+    <choices>
+      <essay/>
+    </choices>
+    <answer>Clipper</answer>
+  </question>
+
+
+  <!--Question 19 -->
+  <question>
+    <number>19</number>
+    <description>Is XML fun?</description>
+    <choices>
+      <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>Yes</answer>
+  </question>
+
+  
+
+  <!--Question 20 -->
+  <question>
+    <number>20</number>
+    <description>Are you glad the quiz is over?</description>
+    <choices>
+      <boolean>No</boolean>
+      <boolean>Yes</boolean>
+    </choices>
+    <answer>Yes</answer>
+  </question>
+  
+</quiz>
+
